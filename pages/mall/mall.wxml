@@ -1,0 +1,17 @@
+<view class="page">
+  <view class="hero">
+    <view>云朵币余额<text class="num">{{balance}}</text></view>
+    <button class="sign {{signed?'off':''}}" bindtap="onSign">{{signed ? '已签到 · 连续' + streak + '天' : '签到领云朵币'}}</button>
+  </view>
+  <view class="search"><input placeholder="🔍 搜索想要的宝贝" bindinput="onSearch" /><view class="cartbtn" bindtap="goCart">🛒<text class="badge" wx:if="{{cartN}}">{{cartN}}</text></view></view>
+  <scroll-view scroll-x class="cats"><view class="cat {{cat===item?'on':''}}" wx:for="{{cats}}" wx:key="*this" bindtap="onCat" data-c="{{item}}">{{item}}</view></scroll-view>
+  <view class="empty" wx:if="{{!goods.length}}">没有找到相关商品</view>
+  <view class="grid">
+    <view class="card" wx:for="{{goods}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="emoji">{{item.emoji}}</view>
+      <view class="name">{{item.name}}</view>
+      <view class="meta">约 {{item.days}} 天送达</view>
+      <view class="row"><text class="price">{{item.price}}币</text><view class="buy" catchtap="addCart" data-id="{{item.id}}">＋购物车</view></view>
+    </view>
+  </view>
+</view>

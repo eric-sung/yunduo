@@ -1,0 +1,8 @@
+<view class="page" style="padding-bottom:160rpx">
+  <view class="empty" wx:if="{{!list.length}}">还没有收货地址\n（虚拟地址，随便填也可以 😄）</view>
+  <view class="box row" wx:for="{{list}}" wx:key="id" bindtap="pick" data-id="{{item.id}}">
+    <view style="flex:1"><view><text class="b">{{item.name}}</text>　{{item.phone}} <text class="tag" wx:if="{{item.isDefault}}">默认</text><text class="tag" wx:if="{{select && sel===item.id}}">当前</text></view><view class="sub">{{item.text}}</view></view>
+    <text class="link" catchtap="edit" data-id="{{item.id}}">编辑</text>
+  </view>
+  <view class="bar"><view class="btn1" style="flex:1;text-align:center" bindtap="edit">＋ 新增收货地址</view></view>
+</view>
