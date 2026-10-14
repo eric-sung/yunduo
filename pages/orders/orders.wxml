@@ -1,7 +1,7 @@
 <view class="seg">
   <view class="sg {{f === item.k ? 'on' : ''}}" wx:for="{{tabs}}" wx:key="k" bindtap="setF" data-k="{{item.k}}">{{item.k}}<text class="cn" wx:if="{{item.n}}">{{item.n}}</text></view>
 </view>
-<view class="page">
+<view class="page tp">
   <view class="empty" wx:if="{{!list.length}}">
     <view style="font-size:110rpx">☁️</view>
     <view>{{f === '全部' ? '还没有包裹' : '没有「' + f + '」的包裹'}}</view>

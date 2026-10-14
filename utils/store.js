@@ -1,5 +1,6 @@
 const K = 'pandi_data'
-const DEF = { balance: 100, streak: 0, lastSign: '', orders: [], cart: [], addresses: [], selAddr: '', helped: [] }
+const DEF = { balance: 100, streak: 0, lastSign: '', orders: [], cart: [], addresses: [], selAddr: '', helped: [], coupons: [] }
+const { COUPONS } = require('../data/goods')
 const fmt = d => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
 const rnd = n => Math.floor(Math.random() * n)
 function get() { try { return Object.assign({}, DEF, wx.getStorageSync(K) || {}) } catch (e) { return Object.assign({}, DEF) } }
@@ -23,7 +24,11 @@ function sign() {
   return gain
 }
 // 购物车
-function cartAdd(id, n) { const d = get(), c = d.cart.find(x => x.id === id); c ? c.n += (n || 1) : d.cart.push({ id, n: n || 1 }); set(d) }
+function cartAdd(id, n, spec, price) {
+  const d = get(), key = id + '|' + (spec || ''), c = d.cart.find(x => (x.key || x.id + '|') === key)
+  c ? c.n += (n || 1) : d.cart.push({ id, n: n || 1, spec: spec || '', price, key }); set(d)
+}
+function claim(id) { const d = get(); if (d.coupons.some(c => c.id === id)) return false; d.coupons.push({ id, used: false }); set(d); return true }
 function cartSet(list) { const d = get(); d.cart = list.filter(x => x.n > 0); set(d) }
 function cartCount() { return get().cart.reduce((s, x) => s + x.n, 0) }
 // 收货地址
@@ -45,21 +50,24 @@ function addrDel(id) {
 }
 function addrSel(id) { const d = get(); d.selAddr = id; set(d) }
 // 结算：items=[{g,n}]，fromCart 时清空购物车中已购商品
-function checkout(items, addr, fromCart) {
-  const d = get(), total = items.reduce((s, i) => s + i.g.price * i.n, 0)
+function checkout(items, addr, fromCart, cid) {
+  const d = get(), sub = items.reduce((s, i) => s + i.price * i.n, 0)
   if (!addr) return 'noaddr'
+  let off = 0; const cp = d.coupons.find(c => c.id === cid && !c.used), def = cp && COUPONS.find(x => x.id === cid)
+  if (def && sub >= def.min) { off = def.off; cp.used = true }
+  const total = sub - off
   if (d.balance < total) return 'nomoney'
   d.balance -= total
   d.orders.push({
-    id: 'PD' + Date.now(), createdAt: Date.now(), received: false, price: total,
+    id: 'PD' + Date.now(), createdAt: Date.now(), received: false, price: total, off,
     name: items[0].g.name + (items.length > 1 ? ` 等${items.length}件` : ''),
     emoji: items.map(i => i.g.emoji).slice(0, 3).join(''),
     days: Math.max.apply(null, items.map(i => i.g.days)),
-    items: items.map(i => i.g.name + '×' + i.n),
+    items: items.map(i => i.g.name + (i.spec ? '（' + i.spec + '）' : '') + '×' + i.n),
     addr: `${addr.name} ${addr.phone} ${addr.region.join('')}${addr.detail}`,
     code: `${1 + rnd(9)}-${1 + rnd(9)}-${1000 + rnd(9000)}`, station: `云朵驿站 ${1 + rnd(20)} 号柜`
   })
-  if (fromCart) d.cart = d.cart.filter(c => !items.some(i => i.g.id === c.id))
+  if (fromCart) d.cart = d.cart.filter(c => !items.some(i => i.key === (c.key || c.id + '|')))
   set(d); return 'ok'
 }
 function receive(id) { const d = get(); d.orders.forEach(o => { if (o.id === id) o.received = true }); set(d) }
@@ -74,4 +82,4 @@ function helpReceive(id, by) {
   o.received = true; o.helper = by || '云朵好友'; set(d); return true
 }
 function reset() { wx.removeStorageSync(K) }
-module.exports = { badge, get, isSigned, sign, cartAdd, cartSet, cartCount, addrList, addrCur, addrSave, addrDel, addrSel, checkout, receive, helpDone, helpReceive, reset }
+module.exports = { claim, badge, get, isSigned, sign, cartAdd, cartSet, cartCount, addrList, addrCur, addrSave, addrDel, addrSel, checkout, receive, helpDone, helpReceive, reset }
