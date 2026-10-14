@@ -3,11 +3,13 @@ const DEF = { balance: 100, streak: 0, lastSign: '', orders: [], cart: [], addre
 const fmt = d => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
 const rnd = n => Math.floor(Math.random() * n)
 function get() { try { return Object.assign({}, DEF, wx.getStorageSync(K) || {}) } catch (e) { return Object.assign({}, DEF) } }
-function badge() { // 购物车数量角标 + 待取件红点
+function badge(sel) { // 刷新自定义 tabBar：购物车数量、待取件红点、选中项
   try {
     const d = get(), n = d.cart.reduce((s, x) => s + x.n, 0)
-    n ? wx.setTabBarBadge({ index: 1, text: String(n), fail() {} }) : wx.removeTabBarBadge({ index: 1, fail() {} })
-    d.orders.some(o => !o.received && Date.now() - o.createdAt >= o.days * 864e5) ? wx.showTabBarRedDot({ index: 2, fail() {} }) : wx.hideTabBarRedDot({ index: 2, fail() {} })
+    const dot = d.orders.some(o => !o.received && Date.now() - o.createdAt >= o.days * 864e5)
+    const ps = getCurrentPages(), p = ps[ps.length - 1]
+    const tb = p && typeof p.getTabBar === 'function' && p.getTabBar()
+    if (tb) tb.setData(sel === undefined ? { cartN: n, dot } : { cartN: n, dot, selected: sel })
   } catch (e) {}
 }
 function set(d) { wx.setStorageSync(K, d); badge() }

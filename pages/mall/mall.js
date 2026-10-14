@@ -1,7 +1,7 @@
 const store = require('../../utils/store'), { CATS, GOODS } = require('../../data/goods')
 Page({
   data: { cats: CATS, cat: '全部', kw: '', goods: GOODS, balance: 0, streak: 0, signed: false, cartN: 0 },
-  onShow() { store.badge(); const d = store.get(); this.setData({ balance: d.balance, streak: d.streak, signed: store.isSigned(), cartN: store.cartCount() }) },
+  onShow() { store.badge(0); const d = store.get(); this.setData({ balance: d.balance, streak: d.streak, signed: store.isSigned(), cartN: store.cartCount() }) },
   onSign() {
     const g = store.sign()
     if (!g) return wx.showToast({ title: '今天已经签过啦', icon: 'none' })

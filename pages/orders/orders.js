@@ -6,7 +6,7 @@ Page({
   onShow() {
     const g = getApp().globalData
     if (g.f) { this.setData({ f: g.f }); g.f = '' }
-    store.badge(); this.load(); this.timer = setInterval(() => this.load(), 30000)
+    store.badge(2); this.load(); this.timer = setInterval(() => this.load(), 30000)
   },
   onHide() { clearInterval(this.timer) },
   onUnload() { clearInterval(this.timer) },

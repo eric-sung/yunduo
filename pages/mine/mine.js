@@ -3,7 +3,7 @@ const LV = [[30, '彩虹云 🌈'], [7, '积雨云 ⛈'], [3, '小云朵 ☁️'
 Page({
   data: { d: {}, cnt: 0, stList: [], days: [], signed: false, nick: '', lv: '' },
   onShow() {
-    store.badge()
+    store.badge(3)
     const d = store.get(), c = { '待发货': 0, '运输中': 0, '待取件': 0, '已签收': 0 }
     d.orders.forEach(o => c[lg.view(o).status]++)
     this.setData({
