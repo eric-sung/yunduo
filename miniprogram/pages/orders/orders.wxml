@@ -1,0 +1,32 @@
+<view class="seg">
+  <view class="sg {{f === item.k ? 'on' : ''}}" wx:for="{{tabs}}" wx:key="k" bindtap="setF" data-k="{{item.k}}">{{item.k}}<text class="cn" wx:if="{{item.n}}">{{item.n}}</text></view>
+</view>
+<view class="page tp">
+  <view class="empty" wx:if="{{!list.length}}">
+    <view style="font-size:110rpx">☁️</view>
+    <view>{{f === '全部' ? '还没有包裹' : '没有「' + f + '」的包裹'}}</view>
+    <view class="go" bindtap="goMall">去商城逛逛</view>
+  </view>
+  <view class="oc" wx:for="{{list}}" wx:key="id">
+    <view class="oh2"><text class="oid">订单 {{item.sid}}</text><text class="chip {{item.cls}}">{{item.status}}</text></view>
+    <view class="main">
+      <view class="thumb">{{item.emoji}}</view>
+      <view class="info"><view class="nm">{{item.name}}</view><view class="sub">{{item.price}} 云朵币 · {{item.ctime}} 下单</view></view>
+    </view>
+    <view class="prog" wx:if="{{!item.received}}">
+      <view class="pb"><view class="pf {{item.cls}}" style="width:{{item.prog}}%"></view></view>
+      <view class="sub">{{item.arrived ? '已到驿站，等你来取' : '预计 ' + item.eta + ' 后到驿站'}}</view>
+    </view>
+    <view class="latest">{{item.latest}}</view>
+    <view class="subbtn" wx:if="{{subOn && !item.received}}" bindtap="onSub">🔔 订阅物流提醒，状态更新时通知我</view>
+    <view class="sub" wx:if="{{item.addr}}">📍 {{item.addr}}</view>
+    <view class="ticket" wx:if="{{item.canPick}}">
+      <view class="tl"><view class="sub">{{item.station}}</view><view class="tc">{{item.code}}</view></view>
+      <view class="tr"><button class="share" open-type="share" data-id="{{item.id}}">请朋友取</button><view class="pk" bindtap="onPick" data-id="{{item.id}}">我已取件</view></view>
+    </view>
+    <view class="link" bindtap="toggle" data-id="{{item.id}}">{{item.open ? '收起物流 ▲' : '查看物流 ▼'}}</view>
+    <block wx:if="{{item.open}}">
+      <view class="step" wx:for="{{item.steps}}" wx:for-item="s" wx:key="txt"><view>{{s.txt}}</view><view class="t">{{s.time}}</view></view>
+    </block>
+  </view>
+</view>

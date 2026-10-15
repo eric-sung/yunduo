@@ -1,5 +1,6 @@
 {
-  "miniprogramRoot": "./",
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
   "appid": "wx34755664ba17e50e",
   "projectname": "yunduo",
   "setting": {

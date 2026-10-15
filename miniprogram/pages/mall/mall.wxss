@@ -1,0 +1,19 @@
+.sorts{display:flex;align-items:center;margin:4rpx 6rpx 18rpx;font-size:26rpx;color:#8A93B5}
+.so{margin-right:36rpx;padding:4rpx 0}.so.on{color:#6C8CFF;border-bottom:4rpx solid #6C8CFF}.cnt{margin-left:auto;font-size:22rpx;color:#B0B8D4}
+.gc{width:48.5%;background:#fff;border-radius:28rpx;margin-bottom:20rpx;overflow:hidden;box-shadow:0 8rpx 24rpx rgba(108,140,255,.1)}
+.gi{position:relative;height:260rpx;display:flex;align-items:center;justify-content:center}
+.c0{background:linear-gradient(160deg,#FFE9DE,#FFF6EE)}.c1{background:linear-gradient(160deg,#DDE6FF,#F2EAFF)}.c2{background:linear-gradient(160deg,#E3F5EC,#EEF8FF)}.c3{background:linear-gradient(160deg,#FFF3D6,#FFF9EC)}.c4{background:linear-gradient(160deg,#FFE3EE,#F5ECFF)}
+.ge{font-size:130rpx}
+.gt{position:absolute;left:0;top:18rpx;background:linear-gradient(135deg,#FF9A6B,#FF7A59);color:#fff;font-size:20rpx;padding:4rpx 18rpx 4rpx 14rpx;border-radius:0 20rpx 20rpx 0}
+.gb{padding:18rpx 20rpx 22rpx}
+.gn{font-size:30rpx;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gd{font-size:22rpx;color:#8A93B5;margin:6rpx 0 12rpx;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gp{display:flex;align-items:baseline}.gpn{font-size:40rpx;color:#FF7A59}.gpu{font-size:20rpx;color:#FF7A59;margin:0 10rpx 0 4rpx}.gpo{font-size:22rpx;color:#B0B8D4;text-decoration:line-through}
+.gm{display:flex;justify-content:space-between;margin-top:8rpx;font-size:20rpx;color:#B0B8D4}
+.end{text-align:center;color:#B0B8D4;font-size:22rpx;margin:20rpx 0}
+.adwrap{position:relative;margin:20rpx 0 0;border-radius:28rpx;overflow:hidden}
+.bn{height:200rpx}
+.bi{height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 36rpx;color:#fff}
+.b0{background:linear-gradient(120deg,#7FA2FF,#B69CFF)}.b1{background:linear-gradient(120deg,#FF9A6B,#FF7AA8)}.b2{background:linear-gradient(120deg,#5FC8B0,#6C8CFF)}
+.bt{font-size:36rpx}.bs{font-size:22rpx;opacity:.9;margin-top:8rpx}.be{font-size:96rpx}
+.adtag{position:absolute;right:12rpx;top:10rpx;z-index:5;background:rgba(0,0,0,.28);color:#fff;font-size:18rpx;padding:0 10rpx;border-radius:8rpx}
