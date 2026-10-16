@@ -1,11 +1,11 @@
-const notify = require('../../utils/notify'), store = require('../../utils/store'), { byId, COUPONS } = require('../../data/goods')
+const notify = require('../../utils/notify'), store = require('../../utils/store'), gd = require('../../data/goods'), byId = gd.byId
 Page({
   data: { items: [], sub: 0, off: 0, total: 0, days: 0, balance: 0, addr: null, cpTxt: '' },
   onLoad(o) {
     this.mode = o.mode; this.cid = null
     const mk = (g, n, spec, price) => ({ id: g.id, key: g.id + '|' + (spec || ''), g, n, spec: spec || '', price: price || g.price })
     this.items = o.mode === 'buy' ? [mk(byId(o.id), Number(o.n) || 1, o.spec, Number(o.price))]
-      : store.get().cart.map(c => mk(byId(c.id), c.n, c.spec, c.price))
+      : store.get().cart.filter(c => byId(c.id)).map(c => mk(byId(c.id), c.n, c.spec, c.price))
     this.sub = this.items.reduce((s, i) => s + i.price * i.n, 0)
     this.setData({ items: this.items, sub: this.sub, days: Math.max.apply(null, this.items.map(i => i.g.days).concat(0)) })
   },
@@ -15,7 +15,7 @@ Page({
     this.calc()
   },
   calc() {
-    this.cps = store.get().coupons.filter(c => !c.used).map(c => COUPONS.find(x => x.id === c.id)).filter(c => c.min <= this.sub).sort((a, b) => b.off - a.off)
+    this.cps = store.get().coupons.filter(c => !c.used).map(c => gd.COUPONS.find(x => x.id === c.id)).filter(c => c && c.min <= this.sub).sort((a, b) => b.off - a.off)
     if (this.cid === null) this.cid = this.cps.length ? this.cps[0].id : 0
     const cp = this.cps.find(c => c.id === this.cid), off = cp ? cp.off : 0
     this.setData({ off, total: this.sub - off, cpTxt: cp ? `${cp.t} -${cp.off}` : (this.cps.length ? '不使用' : '暂无可用') })

@@ -1,15 +1,14 @@
-const ads = require('../../utils/ads'), store = require('../../utils/store'), { CATS, GOODS, detail } = require('../../data/goods')
-const ALL = GOODS.map(g => {
-  const d = detail(g)
-  return Object.assign({}, g, { sales: d.sales, orig: d.orig, ci: CATS.indexOf(g.cat) - 1,
-    tag: g.id % 4 === 0 ? '热卖' : g.id % 5 === 0 ? '新品' : g.days <= 1 ? '次日达' : '' })
-})
+const ads = require('../../utils/ads'), store = require('../../utils/store'), gd = require('../../data/goods')
 Page({
   data: {
     bannerOn: ads.bannerOn(), bannerId: ads.bannerId,
     banners: [{ t: '每日签到领云朵币', s: '连续签到，奖励越来越高', e: '🎁', a: 'sign' }, { t: '看视频，云朵币翻倍赚', s: '个人中心每天可领 5 次', e: '🎬', a: 'mine' }, { t: '数码新品上架', s: '满 300 减 60 大额券', e: '🎧', a: 'cat' }],
-    cats: CATS, cat: '全部', kw: '', sort: 'def', goods: ALL, balance: 0, streak: 0, signed: false },
-  onShow() { store.badge(0); const d = store.get(); this.setData({ balance: d.balance, streak: d.streak, signed: store.isSigned() }) },
+    cats: ['全部'], cat: '全部', kw: '', sort: 'def', goods: [], balance: 0, streak: 0, signed: false
+  },
+  onShow() {
+    store.badge(0); const d = store.get()
+    this.setData({ cats: gd.CATS, balance: d.balance, streak: d.streak, signed: store.isSigned() }); this.filter()
+  },
   onSign() {
     const g = store.sign()
     if (!g) return wx.showToast({ title: '今天已经签过啦', icon: 'none' })
@@ -23,13 +22,14 @@ Page({
   },
   filter() {
     const { cat, kw, sort } = this.data
-    const list = ALL.filter(g => (cat === '全部' || g.cat === cat) && (!kw || g.name.indexOf(kw) >= 0))
+    const list = gd.GOODS.filter(g => (cat === '全部' || g.cat === cat) && (!kw || g.name.indexOf(kw) >= 0))
+      .map(g => Object.assign({}, g, { ci: Math.max(0, gd.CATS.indexOf(g.cat) - 1) }))
     if (sort === 'sales') list.sort((a, b) => b.sales - a.sales)
     else if (sort === 'pa') list.sort((a, b) => a.price - b.price)
     else if (sort === 'pd') list.sort((a, b) => b.price - a.price)
     this.setData({ goods: list })
   },
-  onAdErr() { this.setData({ bannerOn: false }) }, // 广告拉取失败时退回运营推广位
+  onAdErr() { this.setData({ bannerOn: false }) },
   onBanner(e) {
     const a = e.currentTarget.dataset.a
     if (a === 'sign') this.onSign()

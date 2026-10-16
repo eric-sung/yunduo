@@ -1,7 +1,7 @@
 const K = 'pandi_data'
 const DEF = { balance: 100, streak: 0, lastSign: '', orders: [], cart: [], addresses: [], selAddr: '', helped: [], coupons: [], rev: 0, oid: '', adDay: '', adCnt: 0 }
 const cloud = require('./cloud')
-const { COUPONS } = require('../data/goods')
+const gd = require('../data/goods')
 const fmt = d => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
 const rnd = n => Math.floor(Math.random() * n)
 function get() { try { return Object.assign({}, DEF, wx.getStorageSync(K) || {}) } catch (e) { return Object.assign({}, DEF) } }
@@ -78,7 +78,7 @@ function addrSel(id) { const d = get(); d.selAddr = id; set(d) }
 function checkout(items, addr, fromCart, cid) {
   const d = get(), sub = items.reduce((s, i) => s + i.price * i.n, 0)
   if (!addr) return 'noaddr'
-  let off = 0; const cp = d.coupons.find(c => c.id === cid && !c.used), def = cp && COUPONS.find(x => x.id === cid)
+  let off = 0; const cp = d.coupons.find(c => c.id === cid && !c.used), def = cp && gd.COUPONS.find(x => x.id === cid)
   if (def && sub >= def.min) { off = def.off; cp.used = true }
   const total = sub - off
   if (d.balance < total) return 'nomoney'
@@ -115,4 +115,4 @@ function helpReceive(id, by) {
   o.received = true; o.helper = by || '云朵好友'; set(d); return true
 }
 function reset() { const o = get(); set(Object.assign({}, DEF, { rev: o.rev, oid: o.oid })) }
-module.exports = { adInfo, adReward, pull, claim, badge, get, isSigned, sign, cartAdd, cartSet, cartCount, addrList, addrCur, addrSave, addrDel, addrSel, checkout, receive, helpDone, helpReceive, reset }
+module.exports = { refreshPage, adInfo, adReward, pull, claim, badge, get, isSigned, sign, cartAdd, cartSet, cartCount, addrList, addrCur, addrSave, addrDel, addrSel, checkout, receive, helpDone, helpReceive, reset }

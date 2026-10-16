@@ -1,0 +1,3 @@
+{"_id":"cp1","status":"on","id":1,"off":10,"min":50,"t":"新人礼券"}
+{"_id":"cp2","status":"on","id":2,"off":30,"min":150,"t":"满减券"}
+{"_id":"cp3","status":"on","id":3,"off":60,"min":300,"t":"大额券"}

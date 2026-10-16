@@ -1,3 +1,4 @@
+const cloud = require('../utils/cloud')
 const CATS = ['全部', '美食饮品', '数码', '服饰鞋包', '家居', '玩具礼品']
 const G = (id, cat, emoji, name, price, days, desc) => ({ id, cat, emoji, name, price, days, desc })
 const GOODS = [
@@ -18,7 +19,6 @@ const GOODS = [
   G(15, '玩具礼品', '📚', '一整套漫画', 90, 2, '一口气追完的周末。'),
   G(16, '玩具礼品', '🧩', '千片拼图', 65, 1, '安静地拼，慢慢地好起来。')
 ]
-const byId = id => GOODS.find(g => g.id === Number(id))
 const T = { // 各品类模板：规格组 [名称,加价]、参数、卖点
   '美食饮品': { g: [['规格', [['标准份', 0], ['家庭装', 20]]], ['口味', [['原味', 0], ['少糖', 0], ['无糖', 0]]]], p: [['产地', '云朵城'], ['保质期', '3天'], ['储存方式', '0-4℃冷藏'], ['配料', '优质原料、纯净水']], k: ['新鲜现做，当日制作', '不添加人工色素', '冷链虚拟配送，鲜到驿站'] },
   '数码': { g: [['颜色', [['云朵白', 0], ['星空黑', 0], ['天空蓝', 0]]], ['版本', [['标准版', 0], ['旗舰版', 60]]]], p: [['材质', '航空铝合金 + 亲肤硅胶'], ['产地', '云朵城'], ['保修', '整机1年'], ['包装清单', '主机 / 充电线 / 说明书']], k: ['旗舰级性能，流畅不卡顿', '长效续航，用一整天', '精工做工，握感细腻'] },
@@ -28,8 +28,8 @@ const T = { // 各品类模板：规格组 [名称,加价]、参数、卖点
 }
 const COUPONS = [{ id: 1, off: 10, min: 50, t: '新人礼券' }, { id: 2, off: 30, min: 150, t: '满减券' }, { id: 3, off: 60, min: 300, t: '大额券' }]
 const RV = [['云***朵', '收到啦，比想象中还要好，会继续回购～'], ['小***云', '包装很仔细，送达也很快，五星好评！'], ['晴***天', '颜值在线，细节满分，朋友都问我链接。']]
-function detail(g) {
-  const t = T[g.cat], groups = t.g.map(x => ({ n: x[0], o: x[1].map(a => ({ t: a[0], d: a[1] })) }))
+function detailLocal(g) {
+  const t = T[g.cat] || T['玩具礼品'], groups = t.g.map(x => ({ n: x[0], o: x[1].map(a => ({ t: a[0], d: a[1] })) }))
   return {
     groups, pts: t.k, tags: ['云朵严选', '极速发货', '7天无理由'],
     params: [['品牌', '云朵优选'], ['型号', 'YD-' + (1000 + g.id)]].concat(t.p),
@@ -37,8 +37,33 @@ function detail(g) {
     reviews: RV.map((r, i) => ({ n: r[0], t: r[1], s: i === 2 ? 4 : 5, spec: groups.map(x => x.o[i % x.o.length].t).join(' / ') }))
   }
 }
-function pick(g, sel) {
-  const d = detail(g); sel = sel || d.groups.map(() => 0)
+function pick(d, g, sel) { // d：商品详情（含规格组）
+  sel = sel || d.groups.map(() => 0)
   return { spec: d.groups.map((x, i) => x.o[sel[i]].t).join(' / '), price: g.price + d.groups.reduce((s, x, i) => s + x.o[sel[i]].d, 0) }
 }
-module.exports = { CATS, GOODS, COUPONS, byId, detail, pick }
+const lightOf = g => { // 列表页所需的精简字段
+  const d = detailLocal(g)
+  return { id: g.id, cat: g.cat, emoji: g.emoji, name: g.name, price: g.price, days: g.days, desc: g.desc, sales: d.sales, orig: d.orig,
+    tag: g.id % 4 === 0 ? '热卖' : g.id % 5 === 0 ? '新品' : g.days <= 1 ? '次日达' : '' }
+}
+// 商品目录：优先使用云函数 goods 返回的数据（本地缓存兜底），未配置云开发时使用内置示例数据
+let S = { cats: CATS, goods: GOODS.map(lightOf), coupons: COUPONS }
+try { const c = wx.getStorageSync('yd_catalog'); if (c && c.goods && c.goods.length) S = c } catch (e) {}
+const byId = id => S.goods.find(g => g.id === Number(id))
+function load() { // 拉取分类 + 商品列表 + 优惠券
+  if (!cloud.enabled()) return Promise.resolve(false)
+  return cloud.call('catalog', {}, 'goods').then(r => {
+    if (!r || !r.ok || !r.goods.length) return false
+    S = { cats: ['全部'].concat(r.cats), goods: r.goods, coupons: r.coupons }
+    try { wx.setStorageSync('yd_catalog', S) } catch (e) {}
+    return true
+  }).catch(() => false)
+}
+function fetchDetail(id) { // 拉取单个商品详情（规格、参数、评价等）
+  if (!cloud.enabled()) return Promise.resolve(null)
+  return cloud.call('detail', { id: Number(id) }, 'goods').then(r => (r && r.ok ? r.goods : null)).catch(() => null)
+}
+module.exports = {
+  get CATS() { return S.cats }, get GOODS() { return S.goods }, get COUPONS() { return S.coupons },
+  byId, detailLocal, lightOf, pick, load, fetchDetail, src: { cats: CATS, goods: GOODS, coupons: COUPONS }
+}

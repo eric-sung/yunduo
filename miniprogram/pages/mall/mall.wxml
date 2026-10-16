@@ -23,7 +23,7 @@
   <view class="empty" wx:if="{{!goods.length}}">没有找到相关商品</view>
   <view class="grid">
     <view class="gc" wx:for="{{goods}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
-      <view class="gi c{{item.ci}}"><text class="ge">{{item.emoji}}</text><text class="gt" wx:if="{{item.tag}}">{{item.tag}}</text></view>
+      <view class="gi c{{item.ci % 5}}"><text class="ge">{{item.emoji}}</text><text class="gt" wx:if="{{item.tag}}">{{item.tag}}</text></view>
       <view class="gb">
         <view class="gn">{{item.name}}</view>
         <view class="gd">{{item.desc}}</view>
