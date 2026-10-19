@@ -14,7 +14,7 @@ function view(o) {
   const reached = STEPS.filter(s => r >= s[0])
   const arrived = r >= 1
   const steps = reached.map(s => ({ txt: s[1], time: tm(o.createdAt + s[0] * total) })).reverse()
-  if (o.received) steps.unshift({ txt: o.helper ? `已由「${o.helper}」帮你取件并签收 💛` : '已签收，感谢使用云朵 💛', time: '' })
+  if (o.received) steps.unshift({ txt: o.helper ? `已由「${o.helper}」帮你取件并签收 💛` : '已签收，感谢使用云边小憩 💛', time: '' })
   const status = o.received ? '已签收' : arrived ? '待取件' : reached.length > 2 ? '运输中' : '待发货'
   const left = total - (Date.now() - o.createdAt), h = Math.ceil(left / 36e5)
   const eta = h >= 24 ? `${Math.floor(h / 24)}天${h % 24 ? h % 24 + '小时' : ''}` : h >= 1 ? `${h}小时` : `${Math.max(1, Math.ceil(left / 6e4))}分钟`

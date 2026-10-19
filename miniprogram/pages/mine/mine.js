@@ -24,7 +24,7 @@ Page({
     d.orders.forEach(o => c[lg.view(o).status]++)
     this.setData({
       d, cnt: d.orders.length, adGain: store.adInfo().gain, adLeft: store.adInfo().left, signed: store.isSigned(),
-      nick: wx.getStorageSync('yd_nick') || '云朵居民',
+      nick: wx.getStorageSync('yd_nick') || '云边居民',
       lv: LV.find(l => d.streak >= l[0])[1],
       stList: [['待发货', '📝'], ['运输中', '🚚'], ['待取件', '📦'], ['已签收', '💛']].map(a => ({ k: a[0], i: a[1], n: a[0] === '已签收' ? 0 : c[a[0]] })),
       days: [0, 1, 2, 3, 4, 5, 6].map(i => ({ n: i + 1, gain: Math.min(50 + i * 10, 120), on: d.streak > 0 && i < (d.streak - 1) % 7 + 1 }))
@@ -41,6 +41,6 @@ Page({
   },
   goOrders(e) { getApp().globalData.f = (e && e.currentTarget.dataset.k) || '全部'; wx.switchTab({ url: '/pages/orders/orders' }) },
   go(e) { wx.navigateTo({ url: e.currentTarget.dataset.url }) },
-  about() { wx.showModal({ title: '关于云朵', showCancel: false, content: '商品、物流、取件码全部是虚拟的，不产生任何真实交易或快递。每天签到、收个“快递”，给日子添一点盼头。' }) },
+  about() { wx.showModal({ title: '关于云边小憩', showCancel: false, content: '商品、物流、取件码全部是虚拟的，不产生任何真实交易或快递。每天签到、收个“快递”，给日子添一点盼头。' }) },
   onReset() { wx.showModal({ title: '清空数据？', content: '云朵币、地址和包裹都会重置', success: r => { if (r.confirm) { store.reset(); this.onShow() } } }) }
 })

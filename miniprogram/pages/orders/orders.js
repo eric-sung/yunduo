@@ -25,8 +25,8 @@ Page({
   goMall() { wx.switchTab({ url: '/pages/mall/mall' }) },
   onShareAppMessage(e) {
     const id = e.target && e.target.dataset.id, o = store.get().orders.find(x => x.id === id)
-    if (!o) return { title: '云朵 · 每天都有一个包裹在路上', path: '/pages/mall/mall' }
+    if (!o) return { title: '云边小憩 · 每天都有一个包裹在路上', path: '/pages/mall/mall' }
     const q = ['id', 'name', 'emoji', 'code', 'station'].map(k => k + '=' + encodeURIComponent(o[k])).join('&')
-    return { title: `${o.emoji} 我的云朵包裹到驿站啦，能帮我取一下吗？`, path: '/pages/help/help?' + q + '&oid=' + encodeURIComponent(store.get().oid || '') }
+    return { title: `${o.emoji} 我有个包裹到驿站啦，能帮我取一下吗？`, path: '/pages/help/help?' + q + '&oid=' + encodeURIComponent(store.get().oid || '') }
   }
 })

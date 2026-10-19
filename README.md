@@ -1,4 +1,4 @@
-# 云朵 · 部署说明（完整数据结构见 DATABASE.md）
+# 云边小憩 · 部署说明（完整数据结构见 DATABASE.md）
 
 ## 一、云开发（用户数据 + 商品数据存云端）
 1. 用你自己的 **AppID**（不能用游客模式）导入本目录，修改 `project.config.json` 的 appid。

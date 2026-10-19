@@ -30,7 +30,7 @@
   </view>
   <view class="panel menu">
     <view class="mi" bindtap="go" data-url="/pages/address/address"><text>📍 收货地址</text><text class="ar">›</text></view>
-    <view class="mi" bindtap="about"><text>🎈 关于云朵</text><text class="ar">›</text></view>
+    <view class="mi" bindtap="about"><text>🎈 关于云边小憩</text><text class="ar">›</text></view>
   </view>
   <view class="link" style="text-align:center;margin:30rpx 0 40rpx" bindtap="onReset">重置数据</view>
 </view>

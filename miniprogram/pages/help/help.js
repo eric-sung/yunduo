@@ -7,7 +7,7 @@ Page({
   },
   onNick(e) { this.setData({ nick: e.detail.value }) },
   help() {
-    const nick = this.data.nick.trim() || '云朵好友', p = this.data.p
+    const nick = this.data.nick.trim() || '云边好友', p = this.data.p
     wx.setStorageSync('yd_nick', nick)
     if (cloud.enabled() && p.oid) { // 云端校验取件码并直接修改朋友的包裹状态
       cloud.call('help', { oid: p.oid, id: p.id, code: p.code, nick }).then(r => {
@@ -18,7 +18,7 @@ Page({
   },
   onShareAppMessage() {
     const { p, done, nick } = this.data
-    if (!done) return { title: '云朵 · 每天都有一个包裹在路上', path: '/pages/mall/mall' }
+    if (!done) return { title: '云边小憩 · 每天都有一个包裹在路上', path: '/pages/mall/mall' }
     return { title: `📦 ${nick}已帮你取到「${p.name}」啦！`, path: `/pages/orders/orders?done=${encodeURIComponent(p.id)}&by=${encodeURIComponent(nick)}` }
   }
 })

@@ -34,5 +34,5 @@ Page({
   },
   goCart() { wx.switchTab({ url: '/pages/cart/cart' }) },
   goAddr() { wx.navigateTo({ url: '/pages/address/address?select=1' }) },
-  onShareAppMessage() { return { title: `${this.data.g.emoji} ${this.data.g.name}｜云朵好物`, path: '/pages/detail/detail?id=' + this.data.g.id } }
+  onShareAppMessage() { return { title: `${this.data.g.emoji} ${this.data.g.name}｜云边小憩`, path: '/pages/detail/detail?id=' + this.data.g.id } }
 })

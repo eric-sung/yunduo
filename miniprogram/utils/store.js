@@ -112,7 +112,7 @@ function helpDone(id) {
 function helpReceive(id, by) {
   const d = get(), o = d.orders.find(x => x.id === id)
   if (!o || o.received) return false
-  o.received = true; o.helper = by || '云朵好友'; set(d); return true
+  o.received = true; o.helper = by || '云边好友'; set(d); return true
 }
 function reset() { const o = get(); set(Object.assign({}, DEF, { rev: o.rev, oid: o.oid })) }
 module.exports = { refreshPage, adInfo, adReward, pull, claim, badge, get, isSigned, sign, cartAdd, cartSet, cartCount, addrList, addrCur, addrSave, addrDel, addrSel, checkout, receive, helpDone, helpReceive, reset }

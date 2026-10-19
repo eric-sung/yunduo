@@ -32,7 +32,7 @@ exports.main = async ev => {
     if (!o) return { ok: false, msg: '取件码无效' }
     if (o.received) return { ok: false, msg: '这个包裹已经被取走啦' }
     if (Date.now() - o.createdAt < o.days * 864e5) return { ok: false, msg: '包裹还没到驿站' }
-    o.received = true; o.helper = String(nick || '云朵好友').slice(0, 12)
+    o.received = true; o.helper = String(nick || '云边好友').slice(0, 12)
     await users.doc(oid).update({ data: { orders: owner.orders, rev: _.inc(1) } })
     const { doc: me } = await ensure(OPENID)
     let reward = 0
