@@ -1,9 +1,0 @@
-<view class="page tp" style="padding-bottom:calc(320rpx + env(safe-area-inset-bottom)) !important">
-  <view class="empty" wx:if="{{!list.length}}">购物车空空如也\n去商城挑点好东西吧 🛍</view>
-  <view class="box" wx:for="{{list}}" wx:key="id">
-    <view class="row"><text>{{item.g.emoji}} {{item.g.name}}</text><text class="price">{{item.price}}币</text></view>
-    <view class="row" style="margin-top:12rpx"><text class="sub">{{item.spec}} · 约 {{item.g.days}} 天送达</text>
-      <view class="qty"><text bindtap="chg" data-k="{{index}}" data-d="-1">－</text><text>{{item.n}}</text><text bindtap="chg" data-k="{{index}}" data-d="1">＋</text></view></view>
-  </view>
-  <view class="bar" wx:if="{{list.length}}" style="bottom:calc(98rpx + env(safe-area-inset-bottom));padding-bottom:20rpx;box-shadow:0 -4rpx 16rpx rgba(108,140,255,.08)"><text>合计 <text class="price">{{total}}</text> 云朵币</text><view class="btn1" bindtap="go">去结算</view></view>
-</view>

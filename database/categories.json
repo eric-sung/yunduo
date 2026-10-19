@@ -1,5 +1,12 @@
-{"_id":"c1","name":"美食饮品","sort":1}
-{"_id":"c2","name":"数码","sort":2}
-{"_id":"c3","name":"服饰鞋包","sort":3}
-{"_id":"c4","name":"家居","sort":4}
-{"_id":"c5","name":"玩具礼品","sort":5}
+{"_id":"c1","name":"外卖","sort":1}
+{"_id":"c2","name":"手工DIY","sort":2}
+{"_id":"c3","name":"日常百货","sort":3}
+{"_id":"c4","name":"美妆个护","sort":4}
+{"_id":"c5","name":"饰品配饰","sort":5}
+{"_id":"c6","name":"文具手账","sort":6}
+{"_id":"c7","name":"零食烘焙","sort":7}
+{"_id":"c8","name":"美食饮品","sort":8}
+{"_id":"c9","name":"玩具礼品","sort":9}
+{"_id":"c10","name":"服饰鞋包","sort":10}
+{"_id":"c11","name":"数码","sort":11}
+{"_id":"c12","name":"家居","sort":12}
