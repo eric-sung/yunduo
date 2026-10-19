@@ -2,8 +2,8 @@
 const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database(), _ = db.command
-const TMPL_ID = 'your-template-id'                                   // ← 订阅消息模板 ID（与 miniprogram/config.js 保持一致）
-const KEYS = { goods: 'thing1', status: 'phrase2', note: 'thing3', time: 'time4' } // ← 按所选模板的字段名修改
+const TMPL_ID = 'QAlkA0KMeqYPw-UReHfvu_JFqOvAKvZMHetANpQVMBo'                                   // ← 订阅消息模板 ID（与 miniprogram/config.js 保持一致）
+const KEYS = { goods: 'thing10', status: 'phrase26', note: 'thing21', time: 'thing12' } // ← 按所选模板的字段名修改
 const TH = [0, 0.06, 0.25, 0.5, 0.8, 1]                              // 与小程序 utils/logistics.js 的节点进度一致
 const MSG = { 1: ['已发货', '快递员已揽收，包裹出发啦'], 3: ['运输中', '正飞奔向你所在的城市'], 4: ['派送中', '快递员正在派送，马上到'], 5: ['待取件', null] }
 const cut = (s, n) => String(s).slice(0, n)
