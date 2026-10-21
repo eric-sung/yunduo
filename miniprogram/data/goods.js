@@ -103,7 +103,7 @@ try { const c = wx.getStorageSync('yd_catalog'); if (c && c.goods && c.goods.len
 const byId = id => S.goods.find(g => g.id === Number(id))
 function load() { // 拉取分类 + 商品列表 + 优惠券
   if (!cloud.enabled()) return Promise.resolve(false)
-  return cloud.call('catalog', {}, 'goods').then(r => {
+  return cloud.call('catalog', {}, 'yb_goods').then(r => {
     if (!r || !r.ok || !r.goods.length) return false
     S = { cats: ['全部'].concat(r.cats), goods: r.goods, coupons: r.coupons }
     try { wx.setStorageSync('yd_catalog', S) } catch (e) {}
@@ -112,7 +112,7 @@ function load() { // 拉取分类 + 商品列表 + 优惠券
 }
 function fetchDetail(id) { // 拉取单个商品详情（规格、参数、评价等）
   if (!cloud.enabled()) return Promise.resolve(null)
-  return cloud.call('detail', { id: Number(id) }, 'goods').then(r => (r && r.ok ? r.goods : null)).catch(() => null)
+  return cloud.call('detail', { id: Number(id) }, 'yb_goods').then(r => (r && r.ok ? r.goods : null)).catch(() => null)
 }
 module.exports = {
   get CATS() { return S.cats }, get GOODS() { return S.goods }, get COUPONS() { return S.coupons },

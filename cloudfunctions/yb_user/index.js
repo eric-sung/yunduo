@@ -1,7 +1,7 @@
 // 云函数 user：用户数据存取 + 朋友帮取件。数据库集合：users（文档 _id = 用户 openid）
 const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
-const db = cloud.database(), _ = db.command, users = db.collection('users')
+const db = cloud.database(), _ = db.command, users = db.collection('yb_users')
 const DEF = () => ({ balance: 100, streak: 0, lastSign: '', orders: [], cart: [], addresses: [], selAddr: '', helped: [], coupons: [], adDay: '', adCnt: 0, rev: 0 })
 const FIELDS = ['balance', 'streak', 'lastSign', 'orders', 'cart', 'addresses', 'selAddr', 'helped', 'coupons', 'adDay', 'adCnt']
 const getDoc = async id => { try { return (await users.doc(id).get()).data } catch (e) { return null } }
@@ -11,7 +11,7 @@ async function ensure(id) {
   return { doc, created }
 }
 exports.main = async ev => {
-  const { OPENID } = cloud.getWXContext()
+  const ctx = cloud.getWXContext(), OPENID = ctx.FROM_OPENID || ctx.OPENID // 共享环境跨账号调用时，调用方 openid 在 FROM_OPENID
   if (ev.action === 'load') {
     const { doc, created } = await ensure(OPENID)
     return { ok: true, openid: OPENID, doc, created }

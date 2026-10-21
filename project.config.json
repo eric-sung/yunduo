@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "miniprogram/",
   "cloudfunctionRoot": "cloudfunctions/",
-  "appid": "wx34755664ba17e50e",
+  "appid": "wx562ee551a26f0411",
   "projectname": "yunbianxiaoqi",
   "setting": {
     "es6": true,
@@ -19,8 +19,6 @@
     "disableUseStrict": false,
     "useCompilerPlugins": false,
     "condition": false,
-    "swc": false,
-    "disableSWC": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -33,6 +31,5 @@
     "ignore": [],
     "include": []
   },
-  "editorSetting": {},
-  "libVersion": "3.17.4"
+  "editorSetting": {}
 }
