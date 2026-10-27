@@ -1,4 +1,4 @@
-const ads = require('../../utils/ads'), store = require('../../utils/store'), gd = require('../../data/goods')
+const share = require('../../utils/share'), ads = require('../../utils/ads'), store = require('../../utils/store'), gd = require('../../data/goods')
 Page({
   data: {
     bannerOn: ads.bannerOn(), bannerId: ads.bannerId,
@@ -36,5 +36,7 @@ Page({
     else if (a === 'mine') wx.switchTab({ url: '/pages/mine/mine' })
     else this.setData({ cat: '数码' }, this.filter)
   },
+  onShareAppMessage() { return { title: '云边小憩 · 每天都有一个包裹在路上', path: '/pages/mall/mall', imageUrl: share.app } },
+  onShareTimeline() { return { title: '云边小憩 · 每天都有一个包裹在路上', imageUrl: share.app } },
   goDetail(e) { wx.navigateTo({ url: '/pages/detail/detail?id=' + e.currentTarget.dataset.id }) }
 })

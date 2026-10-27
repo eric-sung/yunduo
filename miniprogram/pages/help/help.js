@@ -1,4 +1,4 @@
-const store = require('../../utils/store'), cloud = require('../../utils/cloud')
+const share = require('../../utils/share'), store = require('../../utils/store'), cloud = require('../../utils/cloud')
 Page({
   data: { p: {}, own: false, done: false, nick: '', got: 0 },
   onLoad(o) {
@@ -18,7 +18,7 @@ Page({
   },
   onShareAppMessage() {
     const { p, done, nick } = this.data
-    if (!done) return { title: '云边小憩 · 每天都有一个包裹在路上', path: '/pages/mall/mall' }
-    return { title: `📦 ${nick}已帮你取到「${p.name}」啦！`, path: `/pages/orders/orders?done=${encodeURIComponent(p.id)}&by=${encodeURIComponent(nick)}` }
+    if (!done) return { title: '云边小憩 · 每天都有一个包裹在路上', path: '/pages/mall/mall', imageUrl: share.app }
+    return { title: `📦 ${nick}已帮你取到「${p.name}」啦！`, path: `/pages/orders/orders?done=${encodeURIComponent(p.id)}&by=${encodeURIComponent(nick)}`, imageUrl: share.help }
   }
 })

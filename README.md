@@ -46,3 +46,13 @@
 1. 小程序后台 → 推广 → 流量主，开通后创建 **激励视频广告位** 和 **Banner 广告位**。
 2. 填到 `config.js` 的 `AD_REWARD_ID`、`AD_BANNER_ID`；未填时个人中心用 3 秒「模拟广告」演示，首页显示运营推广位。
 3. 每天最多看 5 次，每次 +20 云朵币（`utils/store.js` 顶部 `AD_MAX / AD_GAIN` 可改）。
+
+## 四、分享图片
+分享卡片图在 `miniprogram/images/share/`，尺寸 **800×640（5:4）**，目前是示例图，可直接用同名文件替换（路径统一在 `utils/share.js` 配置）：
+| 文件 | 用在哪里 |
+|---|---|
+| `share-pickup.png` | 分享取件码，请朋友帮忙取 |
+| `share-help.png` | 朋友帮取件后回传的“已取到”回执 |
+| `share-goods.png` | 分享商品（详情页） |
+| `share-app.png` | 首页 / 个人中心 / 朋友圈分享，以及其他兜底场景 |
+建议单张不超过 200KB。想给不同商品配不同分享图，可以在 `pages/detail/detail.js` 的 `onShareAppMessage` 里按商品 id 返回不同的 `imageUrl`。

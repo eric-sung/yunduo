@@ -1,4 +1,4 @@
-const ads = require('../../utils/ads'), store = require('../../utils/store'), lg = require('../../utils/logistics')
+const share = require('../../utils/share'), ads = require('../../utils/ads'), store = require('../../utils/store'), lg = require('../../utils/logistics')
 const LV = [[30, '彩虹云 🌈'], [7, '积雨云 ⛈'], [3, '小云朵 ☁️'], [0, '云朵新芽 🌱']]
 Page({
   data: { d: {}, cnt: 0, stList: [], days: [], signed: false, nick: '', lv: '' },
@@ -39,6 +39,7 @@ Page({
     wx.showModal({ title: '修改昵称', editable: true, placeholderText: this.data.nick, success: r => {
       if (r.confirm && r.content.trim()) { wx.setStorageSync('yd_nick', r.content.trim()); this.onShow() } } })
   },
+  onShareAppMessage() { return { title: '云边小憩 · 每天签到领云朵币', path: '/pages/mall/mall', imageUrl: share.app } },
   goOrders(e) { getApp().globalData.f = (e && e.currentTarget.dataset.k) || '全部'; wx.switchTab({ url: '/pages/orders/orders' }) },
   go(e) { wx.navigateTo({ url: e.currentTarget.dataset.url }) },
   about() { wx.showModal({ title: '关于云边小憩', showCancel: false, content: '商品、物流、取件码全部是虚拟的，不产生任何真实交易或快递。每天签到、收个“快递”，给日子添一点盼头。' }) },

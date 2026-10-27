@@ -1,4 +1,4 @@
-const store = require('../../utils/store'), gd = require('../../data/goods')
+const share = require('../../utils/share'), store = require('../../utils/store'), gd = require('../../data/goods')
 Page({
   data: { g: {}, d: { groups: [], params: [], pts: [], tags: [], reviews: [] }, slides: [{ t: '主图' }, { t: '细节图' }, { t: '场景图' }], cur: 0, sel: [], qty: 1, price: 0, specText: '', sheet: '', mode: '', cartN: 0, addr: '', coupons: [], revN: 0 },
   onLoad(o) {
@@ -34,5 +34,5 @@ Page({
   },
   goCart() { wx.switchTab({ url: '/pages/cart/cart' }) },
   goAddr() { wx.navigateTo({ url: '/pages/address/address?select=1' }) },
-  onShareAppMessage() { return { title: `${this.data.g.emoji} ${this.data.g.name}｜云边小憩`, path: '/pages/detail/detail?id=' + this.data.g.id } }
+  onShareAppMessage() { return { title: `${this.data.g.emoji} ${this.data.g.name}｜云边小憩`, path: '/pages/detail/detail?id=' + this.data.g.id, imageUrl: share.goods } }
 })
